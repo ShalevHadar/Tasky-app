@@ -1,6 +1,6 @@
 import {  getAuth, signOut } from "@firebase/auth";
 import { setDoc,  doc, collection } from "@firebase/firestore";
-import React, {  useEffect, useState } from "react";
+import React, {  useCallback, useEffect, useState } from "react";
 import { Button, Container, Form, Stack } from "react-bootstrap";
 import { useHistory } from "react-router";
 import { getDB } from "../utils/firebase";
@@ -15,7 +15,8 @@ export default function Dashboard() {
   const history = useHistory();
 
   const [content, setContent] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState("");
+  const [task, setTask] = useState("");
 
   const onLogout = () => {
     signOut(auth)
@@ -26,15 +27,15 @@ export default function Dashboard() {
       .catch((e) => alert(e.message));
   };
 
-  const  addItem = () => {
+  const addTask = useCallback(() => {
     const db = getDB();
-    const newTaskRef = doc(collection(db, "spends"));
-    console.log(user.uid);
+    const newTaskRef = doc(collection(db, "tasks"));
+
     setDoc(newTaskRef, {
-        text: content,
-        amount: price,
-    });
-  }
+        name: task,
+        user: user.uid,
+    })
+}, [task, user])
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -52,8 +53,9 @@ export default function Dashboard() {
 
         <Stack direction="horizontal" gap={3} className="gap2">
           <Form.Control
-          defaultValue={content}
-          onChange={e => setContent(e.target.value)}
+          defaultValue={task}
+          onChange={e => setTask(e.target.value)}
+          //onChange={e => setContent(e.target.value)}
             className="me-auto"
             placeholder="Add your item here..."
           />
@@ -65,7 +67,7 @@ export default function Dashboard() {
             style={{ width: "20%" }}
           />
           <div className="vr" />
-          <Button onClick={addItem}variant="success">Submit</Button>
+          <Button onClick={addTask}variant="success">Submit</Button>
         </Stack>
 
         <Button

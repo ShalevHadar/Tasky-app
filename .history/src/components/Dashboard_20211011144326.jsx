@@ -1,5 +1,5 @@
 import {  getAuth, signOut } from "@firebase/auth";
-import { setDoc,  doc, collection } from "@firebase/firestore";
+import { collection,  addDoc } from "@firebase/firestore";
 import React, {  useEffect, useState } from "react";
 import { Button, Container, Form, Stack } from "react-bootstrap";
 import { useHistory } from "react-router";
@@ -15,7 +15,7 @@ export default function Dashboard() {
   const history = useHistory();
 
   const [content, setContent] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState("");
 
   const onLogout = () => {
     signOut(auth)
@@ -26,14 +26,13 @@ export default function Dashboard() {
       .catch((e) => alert(e.message));
   };
 
-  const  addItem = () => {
+  const addItem = () => {
     const db = getDB();
-    const newTaskRef = doc(collection(db, "spends"));
-    console.log(user.uid);
-    setDoc(newTaskRef, {
+    const docData = {
         text: content,
         amount: price,
-    });
+    }
+    
   }
 
   useEffect(() => {

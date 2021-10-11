@@ -15,7 +15,7 @@ export default function Dashboard() {
   const history = useHistory();
 
   const [content, setContent] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState("");
 
   const onLogout = () => {
     signOut(auth)
@@ -29,8 +29,7 @@ export default function Dashboard() {
   const  addItem = () => {
     const db = getDB();
     const newTaskRef = doc(collection(db, "spends"));
-    console.log(user.uid);
-    setDoc(newTaskRef, {
+    setDoc(doc(db), {
         text: content,
         amount: price,
     });

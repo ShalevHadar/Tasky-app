@@ -15,7 +15,7 @@ export default function Dashboard() {
   const history = useHistory();
 
   const [content, setContent] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState("");
 
   const onLogout = () => {
     signOut(auth)

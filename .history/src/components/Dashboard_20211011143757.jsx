@@ -1,5 +1,5 @@
 import {  getAuth, signOut } from "@firebase/auth";
-import { setDoc,  doc, collection } from "@firebase/firestore";
+import { collection, doc, addDoc } from "@firebase/firestore";
 import React, {  useEffect, useState } from "react";
 import { Button, Container, Form, Stack } from "react-bootstrap";
 import { useHistory } from "react-router";
@@ -15,7 +15,7 @@ export default function Dashboard() {
   const history = useHistory();
 
   const [content, setContent] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState("");
 
   const onLogout = () => {
     signOut(auth)
@@ -26,14 +26,21 @@ export default function Dashboard() {
       .catch((e) => alert(e.message));
   };
 
-  const  addItem = () => {
+  const addItem = () => {
     const db = getDB();
-    const newTaskRef = doc(collection(db, "spends"));
-    console.log(user.uid);
-    setDoc(newTaskRef, {
-        text: content,
-        amount: price,
-    });
+    const spendsDB = collection(db, 'spends');
+    
+    try {
+        const docRef = addDoc(collection(db, "users"), {
+          first: "Ada",
+          last: "Lovelace",
+          born: 1815
+        });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    
   }
 
   useEffect(() => {
