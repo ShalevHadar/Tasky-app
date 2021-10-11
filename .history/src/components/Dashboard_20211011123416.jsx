@@ -1,19 +1,10 @@
 import { getAuth, signOut } from "@firebase/auth";
-import { collection, doc, setDoc } from "@firebase/firestore";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Button, Container, Form, Stack } from "react-bootstrap";
 import { useHistory } from "react-router";
-import { getDB } from "../utils/firebase";
 
 export default function Dashboard() {
-
-    const auth = getAuth();
-  const user = auth.currentUser;
-
   const history = useHistory();
-
-  const [content, setContent] = useState("");
-  const [price, setPrice] = useState("");
 
   const onLogout = () => {
     signOut(auth)
@@ -24,16 +15,6 @@ export default function Dashboard() {
       .catch((e) => alert(e.message));
   };
 
-  const addItem = useCallback(() => {
-    const db = getDB();
-    const newTaskRef = doc(collection(db,"spends"));
-
-    setDoc(newTaskRef, {
-        content: content,
-        price: price,
-    });
-})
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -41,31 +22,25 @@ export default function Dashboard() {
     }
   });
 
-  
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   return (
     <div>
       <Container className="text-center">
-        <h1>Hello {user && user.displayName}</h1>
-
+        <h1 className="text-center">Hello {user && user.displayName}</h1>
         <Stack direction="horizontal" gap={3} className="gap2">
           <Form.Control
-          defaultValue={content}
-          onChange={e => setContent(e.target.value)}
             className="me-auto"
             placeholder="Add your item here..."
           />
-          <Form.Control
-          defaultValue={price}
-          onChange={e => setPrice(e.target.value)}
-            className="me-auto"
-            placeholder="Price..."
-            style={{ width: "25%" }}
+          <Form.Control 
+            className="col-md-5"
+            placeholder="Add your item here..."
           />
           <div className="vr" />
-          <Button onClick={addItem}variant="success">Submit</Button>
+          <Button variant="secondary">Submit</Button>
         </Stack>
-
         <Button
           onClick={onLogout}
           animation="glow"

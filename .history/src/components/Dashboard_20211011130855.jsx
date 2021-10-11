@@ -1,6 +1,6 @@
 import { getAuth, signOut } from "@firebase/auth";
-import { collection, doc, setDoc } from "@firebase/firestore";
-import React, { useCallback, useEffect, useState } from "react";
+import { collection } from "@firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { Button, Container, Form, Stack } from "react-bootstrap";
 import { useHistory } from "react-router";
 import { getDB } from "../utils/firebase";
@@ -24,15 +24,10 @@ export default function Dashboard() {
       .catch((e) => alert(e.message));
   };
 
-  const addItem = useCallback(() => {
-    const db = getDB();
-    const newTaskRef = doc(collection(db,"spends"));
-
-    setDoc(newTaskRef, {
-        content: content,
-        price: price,
-    });
-})
+  const addItem =() => {
+      const db = getDB();
+      const newTaskRef = collection(db,"spends")
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
