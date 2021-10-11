@@ -1,0 +1,12 @@
+body {
+    background-color: #e3eeff;
+background-image: url("https://www.transparenttextures.com/patterns/60-lines.png");
+}
+
+.gapped {
+    margin-top: 200px;
+}
+
+.White {
+    color: white;
+}
