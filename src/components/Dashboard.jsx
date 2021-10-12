@@ -33,8 +33,11 @@ export default function Dashboard() {
     setDoc(newTaskRef, {
         text: content,
         amount: price,
+        user: user.uid
     });
   }
+
+  
 
   useEffect(() => {
     const token = localStorage.getItem("token");
