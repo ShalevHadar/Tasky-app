@@ -11,8 +11,10 @@ import React, { useEffect, useState } from "react";
 import { Button, Container, Form, Stack } from "react-bootstrap";
 import { useHistory } from "react-router";
 import { getDB } from "../utils/firebase";
+import ItemCard from "./ItemCard";
 
 export default function Dashboard() {
+  let db = getDB();
   const auth = getAuth();
   const user = auth.currentUser;
   const history = useHistory();
@@ -21,6 +23,7 @@ export default function Dashboard() {
   const [items, setItems] = useState([]);
 
   const showItems = () => {
+    //fetchItems();
     console.log(items);
   };
 
@@ -43,29 +46,29 @@ export default function Dashboard() {
     });
   };
 
-  const fetchItems = async () => {
-    const db = getDB();
-    if (user && user.uid) {
+
+useEffect(() => {
+  const fetchNames = async () => {
+    try {
       const q = query(collection(db, "spends"), where("user", "==", user.uid));
-      try {
-        const results = await getDocs(q);
-        let resultItems = [];
-        results.forEach((doc) => {
-          resultItems.push({
-            ...doc.data(),
-            uid: doc.id,
-          });
-          setItems(resultItems);
+      const docs = await getDocs(q);
+      let resultItems = [];
+      docs.forEach((doc) => {
+        const data = doc.data();
+        resultItems.push({
+          text: data.text,
+          price: data.amount,
+          uid: doc.id,
         });
-      } catch (e) {
-        console.log(e);
-      }
+      });
+      setItems(resultItems);
+    } catch (error) {
+      console.log("error", error);
     }
   };
 
-  useEffect(() => {
-    fetchItems();
-  });
+  fetchNames();
+});
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -94,10 +97,20 @@ export default function Dashboard() {
             placeholder="Price..."
             style={{ width: "20%" }}
           />
-          <div></div>
           <Button onClick={addItem} variant="success">
             Submit
           </Button>
+        </Stack>
+
+        <Stack direction="horizontal" gap={3} className="gap2">
+          <div>
+            {items.map((item) => (
+              <p key={item.uid}>{item.text}-----{item.price}</p>
+            ))}
+          </div>
+          <div>
+          <ItemCard/>
+          </div>
         </Stack>
 
         <Button
@@ -118,9 +131,6 @@ export default function Dashboard() {
           showlogs
         </Button>
       </Container>
-      {items.map(item => (
-        <div key={item.uid}>{item.text}</div>
-      ))}    
-      </div>
+    </div>
   );
 }
