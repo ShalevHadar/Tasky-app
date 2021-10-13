@@ -16,5 +16,8 @@ background-image: url("https://www.transparenttextures.com/patterns/60-lines.png
 }
 
 .Title {
-    color: red;
+    color: rgb(71, 128, 155);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    font-size: 3rem;    
 }

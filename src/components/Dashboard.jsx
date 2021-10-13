@@ -94,7 +94,7 @@ export default function Dashboard() {
             style={{ width: "20%" }}
           />
 
-          <Button onClick={addItem} variant="success">
+          <Button onClick={addItem} variant="outline-dark">
             Submit
           </Button>
         </Stack>
@@ -110,7 +110,7 @@ export default function Dashboard() {
         <Button
           onClick={onLogout}
           animation="glow"
-          variant="secondary"
+          variant="outline-secondary"
           className="col-md-3 mx-auto"
           type="submit"
         >
