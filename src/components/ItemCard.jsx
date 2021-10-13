@@ -4,10 +4,10 @@ import { Table } from 'react-bootstrap'
 export default function ItemCard(props) {
   return (
     <div>
-      <Table responsive striped bordered hover variant="light" >
+      <Table responsive striped bordered hover >
   <thead>
-    <tr>
-      <th className="contentWidth">Content</th>
+    <tr className="headery">
+      <th className="contentWidth ">Content</th>
       <th className="priceWidth" >Price</th>
     </tr>
   </thead>

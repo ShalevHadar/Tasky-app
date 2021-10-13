@@ -26,6 +26,13 @@ background-image: url("https://www.transparenttextures.com/patterns/60-lines.png
     font-style: italic;
 }
 
+
+
 .texth3 {
     color: rgb(80, 60, 14);
+}
+
+.headery {
+    background-color:rgb(15, 59, 15);
+    color: white;
 }
