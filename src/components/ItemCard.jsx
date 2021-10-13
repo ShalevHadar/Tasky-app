@@ -7,21 +7,19 @@ export default function ItemCard(props) {
       <Table responsive striped bordered hover variant="dark" >
   <thead>
     <tr>
-      <th>Content</th>
-      <th>Price</th>
+      <th className="contentWidth">Content</th>
+      <th className="priceWidth" >Price</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Mark</td>
-      <td>Otto</td>
+    <tr >
+      <td>{props.text}</td>
+      <td>{props.price}</td>
     </tr>
-    <tr>
-      <td>Jacob</td>
-      <td>Thornton</td>
-    </tr>
+
   </tbody>
 </Table>
     </div>
+
   )
 }

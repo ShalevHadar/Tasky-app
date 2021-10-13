@@ -22,11 +22,6 @@ export default function Dashboard() {
   const [price, setPrice] = useState(0);
   const [items, setItems] = useState([]);
 
-  const showItems = () => {
-    //fetchItems();
-    console.log(items);
-  };
-
   const onLogout = () => {
     signOut(auth)
       .then(() => {
@@ -46,29 +41,30 @@ export default function Dashboard() {
     });
   };
 
-
-useEffect(() => {
-  const fetchNames = async () => {
-    try {
-      const q = query(collection(db, "spends"), where("user", "==", user.uid));
-      const docs = await getDocs(q);
-      let resultItems = [];
-      docs.forEach((doc) => {
-        const data = doc.data();
-        resultItems.push({
-          text: data.text,
-          price: data.amount,
-          uid: doc.id,
+  useEffect(() => {
+    const fetchNames = async () => {
+      try {
+        const q = query(
+          collection(db, "spends"),
+          where("user", "==", user.uid)
+        );
+        const docs = await getDocs(q);
+        let resultItems = [];
+        docs.forEach((doc) => {
+          const data = doc.data();
+          resultItems.push({
+            text: data.text,
+            price: data.amount,
+            uid: doc.id,
+          });
         });
-      });
-      setItems(resultItems);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  fetchNames();
-});
+        setItems(resultItems);
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+    fetchNames();
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -79,8 +75,8 @@ useEffect(() => {
 
   return (
     <div>
-      <Container className="text-center">
-        <h1>Hello {user && user.displayName}</h1>
+      <Container className="text-center gap2">
+        <h1 className="Title">Hello {user && user.displayName}</h1>
 
         <Stack direction="horizontal" gap={3} className="gap2">
           <Form.Control
@@ -97,21 +93,19 @@ useEffect(() => {
             placeholder="Price..."
             style={{ width: "20%" }}
           />
+
           <Button onClick={addItem} variant="success">
             Submit
           </Button>
         </Stack>
-
-        <Stack direction="horizontal" gap={3} className="gap2">
-          <div>
-            {items.map((item) => (
-              <p key={item.uid}>{item.text}-----{item.price}</p>
-            ))}
-          </div>
-          <div>
-          <ItemCard/>
-          </div>
-        </Stack>
+        <ItemCard
+          text={items.map((item) => (
+            <p key={item.uid}>{item.text}</p>
+          ))}
+          price={items.map((item) => (
+            <p key={item.uid}>{item.price}</p>
+          ))}
+        />
 
         <Button
           onClick={onLogout}
@@ -121,14 +115,6 @@ useEffect(() => {
           type="submit"
         >
           Logout
-        </Button>
-        <Button
-          variant="danger"
-          className="col-md-3 mx-auto"
-          type="submit"
-          onClick={showItems}
-        >
-          showlogs
         </Button>
       </Container>
     </div>
