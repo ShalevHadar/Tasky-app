@@ -1,3 +1,19 @@
+
+# TaskyApp, a task to save
+
+This project was my first project in react.
+
+## Useables sources
+
+React & Firebase/Firestore, Bootstrap for react
+
+### `Used react properties`
+
+Hooks, useStates , props.
+
+![demo:](https://i.imgur.com/K7cExjk.png)
+__________________________________________________________________________________________________________________
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
