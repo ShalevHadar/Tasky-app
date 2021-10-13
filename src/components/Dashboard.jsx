@@ -21,6 +21,8 @@ export default function Dashboard() {
   const [content, setContent] = useState("");
   const [price, setPrice] = useState(0);
   const [items, setItems] = useState([]);
+  const [disable, setDisable] = React.useState(false);
+
 
   const onLogout = () => {
     signOut(auth)
@@ -39,10 +41,12 @@ export default function Dashboard() {
       amount: price,
       user: user.uid,
     });
+    fetchNames();
   };
 
-  useEffect(() => {
+    
     const fetchNames = async () => {
+      console.log("Asd");
       try {
         const q = query(
           collection(db, "spends"),
@@ -63,8 +67,7 @@ export default function Dashboard() {
         console.log("error", error);
       }
     };
-    fetchNames();
-  });
+    
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -77,7 +80,11 @@ export default function Dashboard() {
     <div>
       <Container className="text-center gap2">
         <h1 className="Title">Hello {user && user.displayName}</h1>
-
+        <Button  onClick={() => {
+          fetchNames();
+          setDisable(true)
+        }
+        }>Unhide Data</Button>
         <Stack direction="horizontal" gap={3} className="gap2">
           <Form.Control
             defaultValue={content}
@@ -106,12 +113,17 @@ export default function Dashboard() {
             <p key={item.uid}>{item.price}</p>
           ))}
         />
-
+        <div className="smallMoney"><h3>How Much Money Have I Spent?</h3></div>
+        <div><h3 className="texth3">{items.reduce(function (accumulator,item) {
+          return (
+            parseInt(accumulator) + parseInt(item.price)
+          )
+        }, 0)}</h3></div>
         <Button
           onClick={onLogout}
           animation="glow"
           variant="outline-secondary"
-          className="col-md-3 mx-auto"
+          className="col-md-3 mx-auto gap2"
           type="submit"
         >
           Logout

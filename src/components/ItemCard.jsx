@@ -4,7 +4,7 @@ import { Table } from 'react-bootstrap'
 export default function ItemCard(props) {
   return (
     <div>
-      <Table responsive striped bordered hover variant="dark" >
+      <Table responsive striped bordered hover variant="light" >
   <thead>
     <tr>
       <th className="contentWidth">Content</th>
